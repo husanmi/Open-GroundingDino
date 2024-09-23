@@ -1,0 +1,57 @@
+{
+  "train": [
+    {
+      "root": "/data/baowen20/hlh/dataest/Rico_train/train/Rico/combined/jpg_folder",
+      "anno": "/data/baowen20/hlh/dataest/Rico_train/train/Rico/OD_data/OD_Button/OD_Button_train.jsonl",
+      "label_map": "/data/baowen20/hlh/Open-GroundingDino-V2/config/Button_label_map.json",
+      "dataset_mode": "odvg"
+    },
+    {
+      "root": "/data/baowen20/hlh/dataest/Rico_train/train/Rico/combined/jpg_folder",
+      "anno": "/data/baowen20/hlh/dataest/Rico_train/train/Rico/OD_data/OD_Icon/OD_Icon_train.jsonl",
+      "label_map": "/data/baowen20/hlh/Open-GroundingDino-V2/config/Icon_label_map.json",
+      "dataset_mode": "odvg"
+    },
+    {
+      "root": "/data/baowen20/hlh/dataest/Rico_train/train/heatmap_OD_Icon_image",
+      "anno": "/data/baowen20/hlh/dataest/Rico_train/train/Rico/OD_data/OD_Icon/heatmap_Icon_train.jsonl",
+      "label_map": "/data/baowen20/hlh/Open-GroundingDino-V2/config/Icon_label_map.json",
+      "dataset_mode": "odvg"
+    },
+    {
+      "root": "/data/baowen20/hlh/dataest/Rico_train/train/Rico/combined/jpg_folder",
+      "anno": "/data/baowen20/hlh/dataest/Rico_train/train/Rico/VG_data/VG_Text/VG_Text_train.jsonl",
+      "dataset_mode": "odvg"
+    },
+    {
+      "root": "/data/baowen20/hlh/dataest/Rico_train/train/Rico/combined/jpg_folder",
+      "anno": "/data/baowen20/hlh/dataest/Rico_train/train/Rico/VG_data/VG_TextButton/VG_TextButton_train.jsonl",
+      "dataset_mode": "odvg"
+    },
+    {
+      "root": "/data/baowen20/hlh/dataest/Rico_train/train/heatmap_image",
+      "anno": "/data/baowen20/hlh/dataest/Rico_train/train/Rico_heatmap_Tool/heatmap_train.jsonl",
+      "dataset_mode": "odvg"
+    }
+  ],
+  "val": [
+    {
+      "root": "/data/baowen20/hlh/dataest/Rico_train/train/Rico/combined/jpg_folder",
+      "anno": "/data/baowen20/hlh/dataest/Rico_train/train/Rico/OD_data/OD_Icon/OD_Icon_val.json",
+      "label_map": null,
+      "dataset_mode": "coco"
+    },
+    {
+      "root": "/data/baowen20/hlh/dataest/Rico_train/train/Rico/combined/jpg_folder",
+      "anno": "/data/baowen20/hlh/dataest/Rico_train/train/Rico/OD_data/OD_Button/OD_Button_val.json",
+      "label_map": null,
+      "dataset_mode": "coco"
+    },
+    {
+      "root": "/data/baowen20/hlh/dataest/Rico_train/train/heatmap_OD_Icon_image",
+      "anno": "/data/baowen20/hlh/dataest/Rico_train/train/Rico/OD_data/OD_Icon/heatmap_Icon_val.json",
+      "label_map": null,
+      "dataset_mode": "coco"
+    }
+  ]
+}

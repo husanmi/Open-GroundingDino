@@ -4,6 +4,7 @@ import argparse
 import datetime
 import json
 import random
+import wandb
 import time
 from pathlib import Path
 import os, sys
@@ -22,7 +23,8 @@ from datasets import build_dataset, get_coco_api_from_dataset
 from engine import evaluate, train_one_epoch
 
 from groundingdino.util.utils import clean_state_dict
-
+from PIL import ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 def get_args_parser():
     parser = argparse.ArgumentParser('Set transformer detector', add_help=False)
@@ -83,8 +85,8 @@ def build_model_main(args):
 
 
 def main(args):
-    
-
+    if args.rank == 0:
+       wandb.init(project="grounding dino", config=args) # 初始化wandb
     utils.setup_distributed(args)
     # load cfg file and update the args
     print("Loading config file from {}".format(args.config_file))
@@ -285,6 +287,10 @@ def main(args):
         train_stats = train_one_epoch(
             model, criterion, data_loader_train, optimizer, device, epoch,
             args.clip_max_norm, wo_class_error=wo_class_error, lr_scheduler=lr_scheduler, args=args, logger=(logger if args.save_log else None))
+        
+        if args.rank == 0:
+            wandb.log({f'train_{k}': v for k, v in train_stats.items()}) #wandb
+        
         if args.output_dir:
             checkpoint_paths = [output_dir / 'checkpoint.pth']
 
@@ -311,6 +317,10 @@ def main(args):
             model, criterion, postprocessors, data_loader_val, base_ds, device, args.output_dir,
             wo_class_error=wo_class_error, args=args, logger=(logger if args.save_log else None)
         )
+        
+        if args.rank == 0:
+            wandb.log({f'test_{k}': v for k, v in test_stats.items()}) #wandb
+        
         map_regular = test_stats['coco_eval_bbox'][0]
         _isbest = best_map_holder.update(map_regular, epoch, is_ema=False)
         if _isbest:
@@ -322,6 +332,8 @@ def main(args):
                 'epoch': epoch,
                 'args': args,
             }, checkpoint_path)
+            if args.rank == 0:
+               wandb.save(str(checkpoint_path)) #wandb
         log_stats = {
             **{f'train_{k}': v for k, v in train_stats.items()},
             **{f'test_{k}': v for k, v in test_stats.items()},
@@ -370,3 +382,4 @@ if __name__ == '__main__':
     if args.output_dir:
         Path(args.output_dir).mkdir(parents=True, exist_ok=True)
     main(args)
+    

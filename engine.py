@@ -16,6 +16,7 @@ from datasets.coco_eval import CocoEvaluator
 from datasets.cocogrounding_eval import CocoGroundingEvaluator
 
 from datasets.panoptic_eval import PanopticEvaluator
+import wandb  # 导入 wandb
 
 
 def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
@@ -24,7 +25,10 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
                     wo_class_error=False, lr_scheduler=None, args=None, logger=None):
     scaler = torch.cuda.amp.GradScaler(enabled=args.amp)
 
-
+# 初始化 wandb
+    if epoch == 0:
+        wandb.init(project="your_project_name", config=args)
+        
     model.train()
     criterion.train()
     metric_logger = utils.MetricLogger(delimiter="  ")
@@ -90,6 +94,13 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
         if 'class_error' in loss_dict_reduced:
             metric_logger.update(class_error=loss_dict_reduced['class_error'])
         metric_logger.update(lr=optimizer.param_groups[0]["lr"])
+
+        # 记录到 wandb
+        wandb.log({
+            "loss": loss_value,
+            "class_error": loss_dict_reduced.get('class_error', None),
+            "lr": optimizer.param_groups[0]["lr"]
+        })
 
         _cnt += 1
         if args.debug:
@@ -274,7 +285,8 @@ def evaluate(model, criterion, postprocessors, data_loader, base_ds, device, out
         stats['PQ_th'] = panoptic_res["Things"]
         stats['PQ_st'] = panoptic_res["Stuff"]
 
-
+# 记录评估指标到 wandb
+    wandb.log(stats)
 
     return stats, coco_evaluator
 
