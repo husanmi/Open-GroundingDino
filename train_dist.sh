@@ -16,5 +16,5 @@ python -m torch.distributed.launch  --nproc_per_node=${GPU_NUM} main.py \
         -c /home/Open-GroundingDino-V2/config/cfg_odvg.py \
         --datasets /home/Open-GroundingDino-V2/config/datasets_mixed_odvg_train.json \
         --pretrain_model_path /home/Open-GroundingDino-V2/groundingdino_swint_ogc.pth \
-        --options text_encoder_type=/path/to/bert-base-uncased
+        --options text_encoder_type=/home/Open-GroundingDino-V2/bert-base-uncased
  
