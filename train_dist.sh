@@ -12,9 +12,9 @@ MASTER_ADDR=${MASTER_ADDR:-"127.0.0.1"}
 # If you don't want to use any pretrained model, just ignore this parameter.
 
 python -m torch.distributed.launch  --nproc_per_node=${GPU_NUM} main.py \
-        --output_dir ${OUTPUT_DIR} \
-        -c ${CFG} \
-        --datasets ${DATASETS}  \
-        --pretrain_model_path /path/to/groundingdino_swint_ogc.pth \
+        --output_dir /home/Open-GroundingDino-V2/output \
+        -c /home/Open-GroundingDino-V2/config/cfg_odvg.py \
+        --datasets /home/Open-GroundingDino-V2/config/datasets_mixed_odvg_train.json \
+        --pretrain_model_path /home/Open-GroundingDino-V2/groundingdino_swint_ogc.pth \
         --options text_encoder_type=/path/to/bert-base-uncased
  
