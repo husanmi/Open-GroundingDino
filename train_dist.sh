@@ -17,3 +17,4 @@ python -m torch.distributed.launch  --nproc_per_node=${GPU_NUM} main.py \
         --datasets ${DATASETS}  \
         --pretrain_model_path /path/to/groundingdino_swint_ogc.pth \
         --options text_encoder_type=/path/to/bert-base-uncased
+ 
