@@ -332,8 +332,8 @@ def main(args):
                 'epoch': epoch,
                 'args': args,
             }, checkpoint_path)
-            if args.rank == 0:
-               wandb.save(str(checkpoint_path)) #wandb
+            # if args.rank == 0:
+            #    wandb.save(str(checkpoint_path)) #wandb
         log_stats = {
             **{f'train_{k}': v for k, v in train_stats.items()},
             **{f'test_{k}': v for k, v in test_stats.items()},
